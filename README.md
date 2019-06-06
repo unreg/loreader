@@ -6,6 +6,7 @@ Get source:
 git clone https://github.com/unreg/loreader
 cd loreader
 yarn
+react-native link
 ```
 
 Running
