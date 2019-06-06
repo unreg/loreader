@@ -1,0 +1,15 @@
+// ru.json
+{
+  "tabs": {
+    "tracker": "Трекер",
+    "settings": "Настройки",
+    "favourites": "Избранное",
+    "forums": "Форумы"
+  },
+  "screen_title": {
+    "tracker": "Активные темы",
+    "settings": "Настройки",
+    "favourites": "Избранное",
+    "forums": "Список форумов"
+  }
+}
