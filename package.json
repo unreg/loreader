@@ -39,7 +39,12 @@
     "preset": "react-native"
   },
   "main": "index.js",
+<<<<<<< HEAD
   "repository": "https://github.com/unreg/loreader",
   "author": "unreg <black@tmnhy.su>",
+=======
+  "repository": "",
+  "author": "",
+>>>>>>> ee642526eb07bccb6177b0eeb874682592b95b2c
   "license": "MIT"
 }
