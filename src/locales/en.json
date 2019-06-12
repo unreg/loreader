@@ -1,3 +1,15 @@
-// ru.json
+// en.json
 {
+  "tabs": {
+    "tracker": "Feed",
+    "settings": "Settings",
+    "favourites": "Favourites",
+    "forums": "Forums"
+  },
+  "screen_title": {
+    "tracker": "Fresh eat",
+    "settings": "Settings",
+    "favourites": "Favourites",
+    "forums": "Forums"
+  }
 }

@@ -39,7 +39,7 @@
     "preset": "react-native"
   },
   "main": "index.js",
-  "repository": "https://repo.tmnhy.su/scm/lor/loreader.git",
+  "repository": "https://github.com/unreg/loreader",
   "author": "unreg <black@tmnhy.su>",
   "license": "MIT"
 }

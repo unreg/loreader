@@ -12,13 +12,18 @@ import Divider from '../../components/divider/container';
 import ListCheckboxItem from '../../components/settings/checkbox';
 
 import { store } from '../../store';
-import { setAppDarkTheme } from '../../actions';
+import { setAppDarkTheme, setAppAutoScroll } from '../../actions';
+
+import createReactContext from 'create-react-context';
+
+
+const PreferencesContext: any = createReactContext();
 
 
 class SettingsScreen extends React.Component {
 
   render() {
-    // console.log(this.props.data.items)
+    // console.log(this.props.data);
 
     const {
       theme: {
@@ -26,7 +31,7 @@ class SettingsScreen extends React.Component {
       },
     } = this.props;
 
-    const { isDarkTheme } = this.props.data;
+    const { isDarkTheme, autoScroll } = this.props.data;
 
     return (
       <View style={[styles.container]}>
@@ -40,16 +45,25 @@ class SettingsScreen extends React.Component {
         <ScrollView>
           <List.Section>
             <ListCheckboxItem
-              disabled={true}
+              disabled={false}
               title={'Тёмная тема'}
               description={isDarkTheme && 'Установлена' || 'Установить тёмную тему'}
               value={isDarkTheme}
-              onPress={() => {store.dispatch(setAppDarkTheme(!isDarkTheme))}} />
+              onPress={() => {if (this.props.data.toggleTheme) {this.props.data.toggleTheme()} store.dispatch(setAppDarkTheme(!isDarkTheme))}} />
+            <Divider />
+          </List.Section>
+          <List.Section>
+            <ListCheckboxItem
+              disabled={false}
+              title={'Переход к прочитанному'}
+              description={autoScroll && 'Включен' || 'Включить'}
+              value={autoScroll}
+              onPress={() => {store.dispatch(setAppAutoScroll(!autoScroll))}} />
             <Divider />
           </List.Section>
           <List.Section>
             <List.Item
-              title={'Версия приложения'} description={'Version 0.0.1'}
+              title={'Версия приложения'} description={'Version 0.1.0'}
             />
             <Divider />
           </List.Section>

@@ -13,7 +13,6 @@ import { strings } from '../../i18n';
 import CommentList from '../../components/commentlist/container';
 
 import { store } from '../../store';
-import { setConversationCommentsList, setConversationCommentsPages } from './actions';
 import { getConversationPages } from '../../api/lor';
 
 
@@ -59,8 +58,6 @@ class ConversationScreen extends React.Component {
   _onItemPress = item  => {};
 
   _goBack = () => {
-    store.dispatch(setConversationCommentsList([]));
-    store.dispatch(setConversationCommentsPages(['last']));
     this.props.navigation.goBack();
   };
 
