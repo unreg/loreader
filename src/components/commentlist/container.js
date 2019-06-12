@@ -10,6 +10,8 @@ import { FAB, Portal, Text } from 'react-native-paper';
 import Divider from '../divider/container';
 import Comment from '../comment/container';
 
+import { store } from '../../store';
+import { setConversationVisited } from '../../screens/conversation/actions';
 import { getCommentList } from '../../api/lor';
 
 
@@ -31,15 +33,42 @@ class CommentList extends Component {
     this.mounted = true;
   };
 
+  _getComments = async () => {
+    try {
+      const items = await getCommentList(this.props.href);
+      this._setState({items});
+
+      const { topic, visited = {} } = store.getState().ConversationState.ConversationData;
+      const last = visited[topic.key] || null;
+
+      const { autoScroll } = store.getState().AppState.AppData;
+      if (autoScroll) {
+        if (last) {
+          const t = items
+            .map((item, i) => ({key: item.key, i}))
+            .filter(item => item.key === last)
+          const index = t.length ? t[0].i : 0;
+          if (t.length) {
+            setTimeout(() => {this.refs.flatList.scrollToIndex({index})}, 1000)
+          }
+        }
+      }
+
+      visited[topic.key] = items[items.length - 1].key;
+      store.dispatch(setConversationVisited(visited));
+    } catch (error) {
+      console.log('Get comments', error)
+    }
+  };
+
   async componentDidUpdate(prevProps) {
     try {
       if (this.props.href && (this.props.href !== prevProps.href)) {
         this._setState({items: []});
-        const items = await getCommentList(this.props.href);
-        this._setState({items})
+        await this._getComments();
       }
     } catch(error) {
-      console.log('Comment list pdate', error)
+      console.log('Comment list update', error)
     }
   };
 
@@ -51,8 +80,7 @@ class CommentList extends Component {
 
   _onRefresh = async () => {
     try {
-      const items = await getCommentList(this.props.href);
-      this._setState({items})
+      await this._getComments();
     } catch (error) {
       console.log('Comment list refresh', error)
     }
@@ -103,6 +131,8 @@ class CommentList extends Component {
           // ItemSeparatorComponent={({highlighted}) => <Divider />}
 
           // data={[...items, ...[{key: 'msg-end-empty'}]]}
+          initialNumToRender={50} //listview optimization
+          pageSize={50}
           data={this.state.items}
 
           renderItem={ ({item, separators }) => (

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, BottomTabBar } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -57,6 +58,9 @@ const AppTabs = createMaterialBottomTabNavigator(
     },
     Settings: {
       screen: SettingsScreen,
+      screenProps: {
+        foo: 'bar',
+      },
       navigationOptions: {
         title: strings('tabs.settings'),
         tabBarIcon: ({ tintColor }) => (
@@ -70,10 +74,13 @@ const AppTabs = createMaterialBottomTabNavigator(
 
   }, {
     initialRouteName: 'Tracker',
-    activeColor: '#d3d7cf',
-    inactiveColor: '#77777c',
-    barStyle: { backgroundColor: '#555753' },
 });
+
+
+const mapStateProps = store => ({
+  data: store.AppState.AppData,
+});
+
 
 export default createStackNavigator(
     {

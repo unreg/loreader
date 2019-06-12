@@ -3,13 +3,30 @@ import React, {Component} from 'react';
 import Moment from 'moment';
 import HTML from 'react-native-render-html';
 
-import { Image, ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View, StyleSheet, Linking } from 'react-native';
 
 import { withTheme } from 'react-native-paper';
 
 import { Text } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
+const Pre = (_htmlAttribs, _children, _convertedCssStyles, passProps) => {
+  const children = passProps.rawChildren
+    .map(rawChild => rawChild.data)
+    .join("")
+    .split("___PRE_NEWLINE___")
+  return (
+    <React.Fragment key={passProps.key}>
+      {children.map((line, i) => (
+        <Text key={i} numberOfLines={1} style={{flex: 1, flexWrap: 'wrap', fontFamily: 'monospace', fontSize: 12}}>
+          {`${line}\n`}
+        </Text>
+      ))}
+    </React.Fragment>
+  )
+}
 
 
 class Comment extends Component {
@@ -111,7 +128,15 @@ class Comment extends Component {
 
                 <View style={[styles.column, {margin: 8}]}>
                   <HTML html={item.message}
-                    tagsStyles={tagsStyles} classesStyles={classesStyles} />
+                    tagsStyles={tagsStyles} classesStyles={classesStyles}
+                    onLinkPress={(evt, href) => { Linking.openURL(href)}}
+                    alterData={node => {
+                      if (node.parent && (node.parent.name === "code")) {
+                        return node.data.replace(/\n/g, "___PRE_NEWLINE___")
+                      }
+                    }}
+                    renderers={{code: Pre}}
+                  />
                 </View>
 
               </View>
@@ -165,11 +190,5 @@ const message_style = StyleSheet.create({
     borderRadius: 5,
     borderStyle: 'dashed',
     borderWidth: 1,
-  },
-  pre: {
-    marginBottom: 8,
-    fontFamily: 'monospace',
-    fontSize: 14,
-    padding: 8,
   },
 });
