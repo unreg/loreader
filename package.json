@@ -15,7 +15,7 @@
     "react-native-i18n": "^2.0.15",
     "react-native-orientation-locker": "^1.1.5",
     "react-native-paper": "^2.15.2",
-    "react-native-reanimated": "^1.0.1",
+    "react-native-reanimated": "^2.10.0",
     "react-native-render-html": "^4.1.2",
     "react-native-swipe-gestures": "^1.0.3",
     "react-native-tab-view": "^2.3.0",
